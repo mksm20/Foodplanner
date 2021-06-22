@@ -1,0 +1,19 @@
+{
+  "name": "foodplanner",
+  "version": "1.0.0",
+  "description": "food planner and fridge level calculator",
+  "main": "app.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mksm20/Foodplanner.git"
+  },
+  "author": "mksm",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mksm20/Foodplanner/issues"
+  },
+  "homepage": "https://github.com/mksm20/Foodplanner#readme"
+}
