@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/mksm20/Foodplanner/issues"
   },
-  "homepage": "https://github.com/mksm20/Foodplanner#readme"
+  "homepage": "https://github.com/mksm20/Foodplanner#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "request": "^2.88.2",
+    "socketio": "^1.0.0"
+  }
 }
