@@ -2,9 +2,7 @@ function callMealDB(searchParam) {
   const request = require('request');
 
   const options = {
-    url:
-      'http://www.themealdb.com/api/json/v1/1/search.php?s=Arrabiata' +
-      searchParam,
+    url: 'http://www.themealdb.com/api/json/v1/1/' + searchParam,
     headers: { Authorization: 'token=1' }, // Demo API KEY
   };
 
