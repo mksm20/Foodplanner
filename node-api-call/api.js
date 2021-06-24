@@ -1,14 +1,16 @@
-function callMealDB(searchParam) {
+async function callMealDB(searchParam) {
   const request = require('request');
-
   const options = {
-    url: 'http://www.themealdb.com/api/json/v1/1/' + searchParam,
+    url: `http://www.themealdb.com/api/json/v1/1/${searchParam}`,
     headers: { Authorization: 'token=1' }, // Demo API KEY
   };
-
-  request.get(options, function (error, response, body) {
-    const info = JSON.parse(body);
-    console.log(info);
+  return new Promise(function (resolve, reject) {
+    request.get(options, function (error, response, body) {
+      if (error) {
+        console.log(error);
+      }
+      resolve(JSON.parse(body));
+    });
   });
 }
 
