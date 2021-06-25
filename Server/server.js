@@ -3,10 +3,13 @@ async function server(inputData, dataForSearch) {
   const bodyParser = require('body-parser');
   const calc = require('../calculations/calculator');
   const api = require('../node-api-call/api');
+  const htmlConstructor = require('../calculations/createHtml');
+  const createArrayIngredient = require('../calculations/createObjectArray');
 
   const app = express();
 
   let info;
+  let html;
 
   app.use(express.static('./Public'));
   const PORT = process.env.PORT || 3000;
@@ -25,15 +28,16 @@ async function server(inputData, dataForSearch) {
       console.log(inputData);
       dataForSearch = calc.calculator(inputData);
       info = await api.callMealDB(dataForSearch);
-      console.log(info);
+      info = createArrayIngredient(await info);
+      html = htmlConstructor.createHtmlLayout(await info);
     } else {
       res.sendStatus(404);
     }
   });
 
   app.get('/food', (req, res) => {
-    console.log(info);
-    res.send(info);
+    console.log(html);
+    res.send(html);
   });
 
   app.listen(PORT);
