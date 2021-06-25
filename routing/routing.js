@@ -6,6 +6,8 @@ function searchParam(type, input) {
       return `filter.php?i=${input}`;
     case 'Category':
       return `filter.php?c=${input}`;
+    case 'Dish':
+      return `search.php?s=${input}`;
     default:
       break;
   }
