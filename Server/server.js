@@ -11,7 +11,7 @@ async function server(inputData, dataForSearch) {
   const route = require('../routing/routing');
 
   const app = express();
-  let info, html, meal;
+  let info, html, html2, meal;
 
   app.use(cors());
   app.use(express.static('./Public'));
@@ -49,16 +49,15 @@ async function server(inputData, dataForSearch) {
       console.log(meal.meal);
       dataForSearch = route.searchParam('Dish', meal.meal);
       info = await api.callMealDB(dataForSearch);
-      html = htmlMealConstructor(await info);
     } else {
       res.send(404);
     }
   });
 
-  app.get('/misa', (req, res) => {
-    res.sendFile(
-      'C:/Users/martin mortensen/Desktop/Programming/myprojects/FoodPlanner/Public/file.html'
-    );
+  app.get('/misa', async (req, res) => {
+    let html = await htmlMealConstructor(info);
+    await { result: html };
+    res.send(html);
   });
 
   app.listen(PORT, () => {
