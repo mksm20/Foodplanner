@@ -39,7 +39,7 @@ async function server(inputData, dataForSearch) {
       let html = htmlConstructor.createHtmlLayout(await info);
       data.message = html;
       await { result: data.message };
-      io.sockets.emit('meal', data);
+      socket.emit('meal', data);
     });
     socket.on('mealFood', async (data) => {
       console.log(data.message);
@@ -49,7 +49,7 @@ async function server(inputData, dataForSearch) {
       let info = await api.callMealDB(dataForSearch);
       data.message = await htmlMealConstructor(info);
       await { result: data.message };
-      io.sockets.emit('mealFood', data);
+      socket.emit('mealFood', data);
     });
   });
 }

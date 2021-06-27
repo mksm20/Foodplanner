@@ -12,15 +12,18 @@ function createHtmlLayout(objectArray) {
   for (let i = 0; i < objectArray.length; i++) {
     html += `<div class="container">
   <img src="${objectArray[i].image}" dish${i + 1} style="width":50%  id="a";">
-  <div > <button type="button" style="font-size:2vw" class="meals" id="meal${i}" value="${
+  <div > <button type="button" style="font-size:2vw" style="border: none" class="meals" id="meal${i}" value="${
       objectArray[i].meal
-    }">${objectArray[i].meal}</button><br></div>
+    }">${objectArray[i].meal}</button>
+    <br></div>
   <div >  
     </form>
   </div>
+ 
   </div>\n`;
   }
-  html += `<div class="container"><div class="centered"><div  class="btn btn-light"><a class ="centered" href="#" id="goBack">Go Back</a></div></div></div>`;
+  html += `<div class="container"><div class="centered"><div  class="btn btn-light"><a class ="centered" href="#" id="goBack">Go Back</a></div></div></div>
+  `;
 
   return html;
 }

@@ -1,13 +1,18 @@
 async function createMealHtml(dataObject) {
   await dataObject;
   let html = `
+  <div  class="btn btn-light"><a  href="#" id="addToList">Add Meal</a></div>
+      <div id="recipe">
+      <div class="container">
       <style>
-      div {text-align: left
-        margin: auto;
-        width: 80%;
-        margin-left: 17vh;
-        ;}
-      </style> <a id="mealID">${dataObject.meals[0].strMeal}</a> <br>
+      .container {
+        padding: 50px;
+        display: flex;
+        justify-content: center;
+      }
+      </style>
+      <div>
+      <a id="mealID">${dataObject.meals[0].strMeal}</a> <br>
       <a id="area">${dataObject.meals[0].strArea}</a> <br>
       <a id="ins">${dataObject.meals[0].strInstructions}</a> <br>
       <img src="${dataObject.meals[0].strMealThumb}" dish${dataObject.meals[0].strMeal} style="width:50%  id="img";"><br>
@@ -33,7 +38,13 @@ async function createMealHtml(dataObject) {
       <a id="ing18">${dataObject.meals[0].strIngredient18}</a> : <a id="amn18">${dataObject.meals[0].strMeasure18}</a><br>
       <a id="ing19">${dataObject.meals[0].strIngredient19}</a> : <a id="amn19">${dataObject.meals[0].strMeasure19}</a><br>
       <a id="ing20">${dataObject.meals[0].strIngredient20}</a> : <a id="amn20">${dataObject.meals[0].strMeasure20}</a><br>
-      <div class="container"><div class="centered"><a class ="centered" href="#" onclick="history.go(-1)">Go Back</a></div></div>`;
+      </div>
+      </div>
+      <br><br>
+      </div>
+      <div class="centered">
+      <a id="goBack">Go Back</a>
+      </div>`;
   //console.log(html);
   //resolve(html);
   //});
