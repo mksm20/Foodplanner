@@ -6,11 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/bootstrap-reboot.css" />
     <title>Meal Planner</title>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"
+      integrity="sha512-iZIBSs+gDyTH0ZhUem9eQ1t4DcEn2B9lHxfRMeGQhyNdSUz+rb+5A3ummX6DQTOIs1XK0gOteOg/LPtSo9VJ+w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
   </head>
   <body>
     <h1 class="mtb-4">The Meal Planner</h1>
-    <div>
-      <form action="/submit" method="post">
+    <div id="pageRefresh">
+      <div>
         <fieldset>
           <input
             type="text"
@@ -19,24 +26,15 @@
             id="box1"
             required
           />
-          <input type="submit" value="submit" />
+          <!-- prettier-ignore -->
+          <br>
+          <button id="btn1">Submit</button>
+          <!-- prettier-ignore -->
+          <br>
         </fieldset>
-      </form>
-      <form action="/food" method="GET">
-        <fieldset>
-          <input type="submit" value="submit" />
-        </fieldset>
-      </form>
-      <div>
-        <textarea
-          name="Meal Ideas"
-          id="meals"
-          cols="30"
-          rows="10"
-          hidden
-        ></textarea>
+        <div id="goesHere"></div>
       </div>
     </div>
-    <script></script>
+    <script src="chat.js"></script>
   </body>
 </html>

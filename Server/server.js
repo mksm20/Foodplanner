@@ -1,8 +1,7 @@
 async function server(inputData, dataForSearch) {
   const express = require('express');
-  const bodyParser = require('body-parser');
-  const router = express.Router();
   const cors = require('cors');
+  const socket = require('socket.io');
   const calc = require('../calculations/calculator');
   const api = require('../node-api-call/api');
   const htmlConstructor = require('../calculations/createHtml');
@@ -11,65 +10,49 @@ async function server(inputData, dataForSearch) {
   const route = require('../routing/routing');
 
   const app = express();
-  let info, html, html2, meal;
-
   app.use(cors());
   app.use(express.static('./Public'));
-  const PORT = process.env.PORT || 3000;
+
   app.use(
     express.urlencoded({
       extended: true,
     })
   );
+
   app.use(express.json());
-  app.get('/', (req, res) => {
-    res.send(index.html);
-  });
 
-  app.post('/submit', async (req, res) => {
-    if (req) {
-      inputData = req.body;
-      console.log(inputData);
-      dataForSearch = calc.calculator(inputData);
-      info = await api.callMealDB(dataForSearch);
-      info = createArrayIngredient(await info);
-      html = htmlConstructor.createHtmlLayout(await info);
-    } else {
-      res.sendStatus(404);
-    }
-  });
+  const PORT = process.env.PORT || 3000;
 
-  app.get('/food', (req, res) => {
-    res.send(html);
-  });
-
-  app.post('/meal', async (req, res) => {
-    if (req) {
-      meal = req.body;
-      console.log(meal.meal);
-      dataForSearch = route.searchParam('Dish', meal.meal);
-      info = await api.callMealDB(dataForSearch);
-    } else {
-      res.send(404);
-    }
-  });
-
-  app.get('/misa', async (req, res) => {
-    let html = await htmlMealConstructor(info);
-    await { result: html };
-    res.send(html);
-  });
-
-  app.listen(PORT, () => {
+  const server = app.listen(PORT, () => {
     console.log(`http://localhost:${PORT}`);
   });
-}
+  const io = socket(server);
 
+  io.on('connection', (socket) => {
+    console.log(socket.id);
+    socket.on('meal', async (data) => {
+      console.log(data.message);
+      inputData = data.message;
+      console.log(inputData);
+      dataForSearch = calc.calculator(inputData);
+      let info = createArrayIngredient(await api.callMealDB(dataForSearch));
+      let html = htmlConstructor.createHtmlLayout(await info);
+      data.message = html;
+      await { result: data.message };
+      socket.emit('meal', data);
+    });
+    socket.on('mealFood', async (data) => {
+      console.log(data.message);
+      let meal = data.message;
+      console.log(meal);
+      let dataForSearch = route.searchParam('Dish', meal);
+      let info = await api.callMealDB(dataForSearch);
+      data.message = await htmlMealConstructor(info);
+      await { result: data.message };
+      socket.emit('mealFood', data);
+    });
+  });
+}
 module.exports = {
   server,
 };
-/* .then(
-    app.get('/meal', async (req, res) => {
-      res.send(html);
-    })
-  ); */
