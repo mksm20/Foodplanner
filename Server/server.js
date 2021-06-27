@@ -1,8 +1,7 @@
 async function server(inputData, dataForSearch) {
   const express = require('express');
-  const bodyParser = require('body-parser');
-  const router = express.Router();
   const cors = require('cors');
+  const socket = require('socket.io');
   const calc = require('../calculations/calculator');
   const api = require('../node-api-call/api');
   const htmlConstructor = require('../calculations/createHtml');
@@ -11,18 +10,43 @@ async function server(inputData, dataForSearch) {
   const route = require('../routing/routing');
 
   const app = express();
-  let info, html, html2, meal;
-
   app.use(cors());
   app.use(express.static('./Public'));
-  const PORT = process.env.PORT || 3000;
+
   app.use(
     express.urlencoded({
       extended: true,
     })
   );
+
   app.use(express.json());
+
+  const PORT = process.env.PORT || 3000;
+  let info, html, html2, meal;
+
+  const server = app.listen(PORT, () => {
+    console.log(`http://localhost:${PORT}`);
+  });
+  const io = socket(server);
+
+  io.on('connection', (socket) => {
+    console.log(socket.id);
+    socket.on('meal', async (data) => {
+      console.log(data.message);
+      inputData = data.message;
+      console.log(inputData);
+      dataForSearch = calc.calculator(inputData);
+      info = await api.callMealDB(dataForSearch);
+      info = createArrayIngredient(await info);
+      data.message = htmlConstructor.createHtmlLayout(await info);
+      await { result: data.message };
+      console.log(data.message);
+      io.sockets.emit('meal', data);
+    });
+  });
+
   app.get('/', (req, res) => {
+    res.header('Access-Control-Allow-Origin', '*');
     res.send(index.html);
   });
 
@@ -58,10 +82,6 @@ async function server(inputData, dataForSearch) {
     let html = await htmlMealConstructor(info);
     await { result: html };
     res.send(html);
-  });
-
-  app.listen(PORT, () => {
-    console.log(`http://localhost:${PORT}`);
   });
 }
 

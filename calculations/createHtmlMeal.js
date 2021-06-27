@@ -1,18 +1,6 @@
 async function createMealHtml(dataObject) {
   await dataObject;
-  let html = `<!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <style>
-    div {text-align: center;}
-    </style>
-    <title>Meal Planner</title>
-      </head>
+  let html = `
       <body>
       <div class="container"> <div class="centered"><h1>The Meal Planner</h1></div>
       <style>
@@ -44,7 +32,7 @@ async function createMealHtml(dataObject) {
       ${dataObject.meals[0].strIngredient19} : ${dataObject.meals[0].strMeasure19}<br>
       ${dataObject.meals[0].strIngredient20} : ${dataObject.meals[0].strMeasure20}<br>
       <div class="container"><div class="centered"><a class ="centered" href="#" onclick="history.go(-1)">Go Back</a></div></div>
-      </body> </html>`;
+      </body>`;
   //console.log(html);
   //resolve(html);
   //});
