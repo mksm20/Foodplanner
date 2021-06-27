@@ -1,11 +1,19 @@
 var socket = io.connect('http://localhost:3000');
 
 let btnIndex = document.getElementById('btn1');
+let btnShow = document.getElementById('btn2');
 let pageUpdate = document.getElementById('goesHere');
 let meal = [];
 let mealArr = [];
-let counter = 0;
-
+let counter = 0,
+  mealFinish;
+btnShow.addEventListener('click', () => {
+  for (let i = 0; i < counter; i++) {
+    mealFinish += mealArr[i];
+    console.log(mealFinish);
+  }
+  pageUpdate.innerHTML = mealFinish;
+});
 btnIndex.addEventListener('click', () => {
   let mealSend = document.getElementById('box1').value;
   socket.emit('meal', {
