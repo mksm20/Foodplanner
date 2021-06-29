@@ -7,6 +7,7 @@ async function server(inputData, dataForSearch) {
   const htmlConstructor = require('../calculations/createHtml');
   const htmlMealConstructor = require('../calculations/createHtmlMeal');
   const createArrayIngredient = require('../calculations/createObjectArray');
+  const calculator = require('../calculations/calculator');
   const route = require('../routing/routing');
 
   const app = express();
@@ -29,7 +30,13 @@ async function server(inputData, dataForSearch) {
   const io = socket(server);
 
   io.on('connection', (socket) => {
+    let mealArr = [],
+      i = 0,
+      ingAmnArr = [];
     console.log(socket.id);
+    //Recieves data from searchbar takes message and runs through
+    //searchParam - which prepares the right param for the API call
+    //Calls the api - and inserts return values in htmlConstructor and returns finished html
     socket.on('meal', async (data) => {
       console.log(data.message);
       inputData = data.message;
@@ -41,6 +48,9 @@ async function server(inputData, dataForSearch) {
       await { result: data.message };
       socket.emit('meal', data);
     });
+    //Recieves chosen meal from list - takes message and runs through
+    //searchParam - which prepares the right param for the API call
+    //Calls the api - and inserts return values in htmlMealConstructor and returns finished html
     socket.on('mealFood', async (data) => {
       console.log(data.message);
       let meal = data.message;
@@ -50,6 +60,13 @@ async function server(inputData, dataForSearch) {
       data.message = await htmlMealConstructor(info);
       await { result: data.message };
       socket.emit('mealFood', data);
+    });
+    socket.on('returnMeal', async (data) => {
+      mealArr[i] = data.message;
+      console.log(mealArr[i]);
+      await { result: (mealArr[i] = data.message) };
+      ingAmnArr[i] = calculator.calculateIngredients(mealArr[i]);
+      i++;
     });
   });
 }

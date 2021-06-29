@@ -15,7 +15,7 @@ async function createMealHtml(dataObject) {
       <a id="mealID">${dataObject.meals[0].strMeal}</a> <br>
       <a id="area">${dataObject.meals[0].strArea}</a> <br>
       <a id="ins">${dataObject.meals[0].strInstructions}</a> <br>
-      <img src="${dataObject.meals[0].strMealThumb}" dish${dataObject.meals[0].strMeal} style="width:50%  id="img";"><br>
+      <img src="${dataObject.meals[0].strMealThumb}" dish${dataObject.meals[0].strMeal} style="width:50%  id="img"><br>
       <a href=${dataObject.meals[0].strYoutube} id="yt">Youtube<a> <br>
       Ingredients: <br>
       <a id="ing1">${dataObject.meals[0].strIngredient1}</a> : <a id="amn1">${dataObject.meals[0].strMeasure1}</a><br>
