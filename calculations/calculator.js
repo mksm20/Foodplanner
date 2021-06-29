@@ -14,5 +14,23 @@ function calculateIngredients(mealObj) {
     }
   }
   console.log(ingAmnArr);
+  return ingAmnArr;
 }
-module.exports = { calculator, calculateIngredients };
+
+function addIngList(ingAmnArrIn, ingAmnArrOut) {
+  let found = false;
+  for (let i = 0; i < ingAmnArrIn.length; i++) {
+    for (let k = 0; k < ingAmnArrOut.length; k++) {
+      if (ingAmnArrIn[i].ing === ingAmnArrOut[k].ing) {
+        ingAmnArrOut[k].amn += ingAmnArrIn[i].amn;
+        found = true;
+      }
+    }
+    if (!found) {
+      ingAmnArrOut.push(ingAmnArrIn[i]);
+    }
+    found = false;
+  }
+  return ingAmnArrOut;
+}
+module.exports = { calculator, calculateIngredients, addIngList };
