@@ -33,7 +33,8 @@ async function server(inputData, dataForSearch) {
     let mealArr = [],
       i = 0,
       ingAmnArr = [],
-      ingAmnArrOut = [];
+      ingAmnArrOut = [],
+      itemLst;
     console.log(socket.id);
     //Recieves data from searchbar takes message and runs through
     //searchParam - which prepares the right param for the API call
@@ -69,7 +70,8 @@ async function server(inputData, dataForSearch) {
         result: (ingAmnArr[i] = calculator.calculateIngredients(mealArr[i])),
       };
       console.log(ingAmnArr);
-      ingAmnArrOut = calculator.addIngList(ingAmnArr[i], ingAmnArrOut);
+      data.message = calculator.addIngList(ingAmnArr[i], ingAmnArrOut);
+      socket.emit('itemLst', data);
       console.log(ingAmnArrOut);
       i++;
     });

@@ -4,27 +4,42 @@ let btnIndex = document.getElementById('btn1');
 let btnShow = document.getElementById('btn2');
 let btnRemove = document.getElementById('btn3');
 let btnRemoveLatest = document.getElementById('btn4');
+let showJsonLst = document.getElementById('btn5');
 let pageUpdate = document.getElementById('goesHere');
 let meal = [];
 let mealArr = [],
   mealArrCache = [];
 let counter = 0,
-  mealFinish;
+  mealFinish,
+  lstFood;
 
 btnShow.addEventListener('click', () => {
   pageUpdate.innerHTML = mealFinish;
 });
 
 btnRemove.addEventListener('click', () => {
+  btnShow.style.visibility = 'hidden';
+  btnRemove.style.visibility = 'hidden';
+  btnRemoveLatest.style.visibility = 'hidden';
+  showJsonLst.style.visibility = 'hidden';
   mealArr = [];
   mealFinish = '';
 });
+
 btnRemoveLatest.addEventListener('click', () => {
   mealArrCache.pop();
   mealFinish = '';
   for (let i = 0; i < mealArr.length; i++) {
     mealFinish += mealArrCache[i];
   }
+});
+
+showJsonLst.addEventListener('click', () => {
+  document.getElementById('JSON').innerHTML = JSON.stringify(
+    lstFood,
+    undefined,
+    2
+  );
 });
 
 btnIndex.addEventListener('click', () => {
@@ -56,6 +71,10 @@ btnIndex.addEventListener('click', () => {
           //Gets inner html data and saves to  array - makes html string and
           //saves it client side
           addToList.addEventListener('click', async () => {
+            btnShow.style.visibility = 'visible';
+            btnRemove.style.visibility = 'visible';
+            btnRemoveLatest.style.visibility = 'visible';
+            showJsonLst.style.visibility = 'visible';
             let meal = createList();
             console.log(meal);
             await { result: (meal = createList()) };
@@ -74,6 +93,9 @@ btnIndex.addEventListener('click', () => {
         });
       });
     }
+  });
+  socket.on('itemLst', async (data) => {
+    lstFood = await data.message;
   });
 });
 

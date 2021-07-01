@@ -9,7 +9,7 @@ function calculateIngredients(mealObj) {
   const Meal = require('../classes/mealClass');
   let ingAmnArr = [];
   for (let i = 1; i <= 20; i++) {
-    if (mealObj[`ing${i}`] !== '') {
+    if (mealObj[`ing${i}`] !== '' && mealObj[`ing${i}`] !== null) {
       ingAmnArr[i - 1] = new Meal(mealObj[`ing${i}`], mealObj[`amn${i}`]);
     }
   }
@@ -17,7 +17,7 @@ function calculateIngredients(mealObj) {
   return ingAmnArr;
 }
 
-function addIngList(ingAmnArrIn, ingAmnArrOut) {
+function addIngList(ingAmnArrIn, ingAmnArrOut = []) {
   let found = false;
   for (let i = 0; i < ingAmnArrIn.length; i++) {
     for (let k = 0; k < ingAmnArrOut.length; k++) {
@@ -26,7 +26,7 @@ function addIngList(ingAmnArrIn, ingAmnArrOut) {
         found = true;
       }
     }
-    if (!found) {
+    if (found === false) {
       ingAmnArrOut.push(ingAmnArrIn[i]);
     }
     found = false;
