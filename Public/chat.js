@@ -34,13 +34,17 @@ btnRemoveLatest.addEventListener('click', () => {
   }
 });
 
-showJsonLst.addEventListener('click', () => {
-  document.getElementById('JSON').innerHTML = JSON.stringify(
-    lstFood,
-    undefined,
-    2
-  );
-});
+function constructTable(selector) {
+  // Getting the all column names
+  let table = ``;
+  table += `<table style="width:100%"><tr><th>Ingredient</th><th>Amount</th></tr>`;
+  for (let i = 0; i < selector.length; i++) {
+    table += `<tr><td>${selector[i].ing}</td><td>${selector[i].amn}</td></tr>`;
+  }
+  table += `</table>`;
+  console.log(table);
+  return table;
+}
 
 btnIndex.addEventListener('click', () => {
   let mealSend = document.getElementById('box1').value;
@@ -48,7 +52,6 @@ btnIndex.addEventListener('click', () => {
     message: mealSend,
   });
   socket.on('meal', async (data) => {
-    console.log(data.message);
     await data.message;
     pageUpdate.innerHTML = data.message;
     await { result: (pageUpdate.innerHTML = data.message) };
@@ -76,11 +79,11 @@ btnIndex.addEventListener('click', () => {
             btnRemoveLatest.style.visibility = 'visible';
             showJsonLst.style.visibility = 'visible';
             let meal = createList();
-            console.log(meal);
             await { result: (meal = createList()) };
             socket.emit('returnMeal', {
               message: meal,
             });
+
             mealArr[counter] = mealID.innerHTML;
             await { result: (mealArr[counter] = mealID.innerHTML) };
             counter++;
@@ -96,6 +99,12 @@ btnIndex.addEventListener('click', () => {
   });
   socket.on('itemLst', async (data) => {
     lstFood = await data.message;
+    await { result: lstFood };
+    console.log(lstFood);
+    showJsonLst.addEventListener('click', () => {
+      let table;
+      document.getElementById('JSON').innerHTML = constructTable(lstFood);
+    });
   });
 });
 
